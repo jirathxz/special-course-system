@@ -1,0 +1,16 @@
+# ระบบขอเปิดหมู่เรียนพิเศษ — Apache configuration
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # ห้ามเข้าโฟลเดอร์ภายในโดยตรง (โค้ดและค่า config ไม่ใช่ไฟล์ที่เรียกจากเบราว์เซอร์)
+    RewriteRule ^(config|classes|includes)/ - [F,L]
+</IfModule>
+
+# ห้ามดาวน์โหลดไฟล์ฐานข้อมูล / log
+<FilesMatch "\.(sql|log|md)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
